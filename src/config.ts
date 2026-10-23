@@ -18,7 +18,7 @@ export const SITE = {
   email: 'mailto:hello@example.com',
   /** 外链（占位，T2 推送后替换为真实用户名） */
   github: 'https://github.com/TZH-user',
-  gitee: 'https://gitee.com/tangzehan',
+  gitee: 'https://gitee.com/bending-the-willow-branches',
   /** 备案前引导（微信内打开提示） */
   wechatTip: '本站直连国内节点；若微信内加载异常，点击右上角"在浏览器打开"。',
 } as const;
