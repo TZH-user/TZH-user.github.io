@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../config';
+---
+
+<BaseLayout title="关于" description="简历摘要、技能矩阵与联系方式。">
+  <section class="mx-auto max-w-5xl px-4 py-12 sm:py-16">
+    <p class="kicker">/about</p>
+    <h1 class="mt-2 text-3xl font-bold sm:text-4xl">关于我</h1>
+    <p class="mt-5 max-w-3xl text-[15px] leading-8 text-fg-300">{SITE.intro}</p>
+
+    <div class="mt-10 grid gap-6 lg:grid-cols-5">
+      <!-- 方向 -->
+      <div class="panel p-6 lg:col-span-3">
+        <h2 class="text-lg font-semibold text-fg-100">我在做什么</h2>
+        <ul class="mt-4 space-y-4 text-sm leading-7 text-fg-300">
+          <li>
+            <strong class="text-fg-100">嵌入式与信号处理。</strong>
+            以 STM32H743 为主控做过通信信号分析仪（IQ 混频 + 双 ADC 1.024 MHz 采样 + 11 种调制识别）与无线收发装置（30~50 MHz 自动扫频锁定）；以 Verilog 写过 10 通道 PDM 采集链，RTL 与 MATLAB 定点金模型逐位一致。
+          </li>
+          <li>
+            <strong class="text-fg-100">工程化基建。</strong>
+            维护一套 H743 模板体系（13 硬件驱动 + 9 组算法模块），配套工程克隆、自检、翻译工具，以及 JSON 计划驱动的自动测量台和 PC 端算法回归仿真台。
+          </li>
+          <li>
+            <strong class="text-fg-100">PC 工具与自动化。</strong>
+            写过局域网 SCPI 仪器控制台（DG4062 / E8267D / MSO4104B）与 AI skill 驱动的工作流，让大模型安全地操作真实仪器；也写 MCP 服务器（多引擎聚合搜索、FPGA 工程索引）。
+          </li>
+          <li>
+            <strong class="text-fg-100">AI 素材管线。</strong>
+            在 RTX 4060 Ti 上完成 Flux / Qwen-Image / Wan2.2 / MiniMax-H3 本地部署与横向评测，搭了从模型下载、工作流到 QC 的完整素材生产线。
+          </li>
+        </ul>
+      </div>
+
+      <!-- 联系 + 履历要点 -->
+      <div class="space-y-6 lg:col-span-2">
+        <div class="panel p-6">
+          <h2 class="text-lg font-semibold text-fg-100">联系方式</h2>
+          <ul class="mt-4 space-y-3 text-sm">
+            <li><a class="link" href={SITE.github} target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
+            <li><a class="link" href={SITE.gitee} target="_blank" rel="noopener noreferrer">Gitee ↗</a></li>
+            <li><a class="link" href={SITE.email}>邮箱</a></li>
+          </ul>
+          <p class="mt-5 border-t border-ink-700/60 pt-4 text-xs leading-6 text-fg-500">
+            招聘联系请优先邮件，附岗位与团队介绍；看到消息通常 24 小时内回复。
+          </p>
+        </div>
+
+        <div class="panel p-6">
+          <h2 class="text-lg font-semibold text-fg-100">竞赛与荣誉</h2>
+          <ul class="mt-4 space-y-3 text-sm leading-7 text-fg-300">
+            <li>2025 校电子设计竞赛 C 题「简易通信信号分析仪」——方案/固件/算法主要负责人</li>
+            <li>2026 校电子设计竞赛 F 题「无线自动收发装置」——扫频锁定与调制识别算法</li>
+            <li>FPGA 声学相机 34 麦阵列采集链——RTL 与金模型逐位一致验收通过</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 完整技能矩阵 -->
+    <div class="mt-10">
+      <h2 class="text-xl font-bold">技能矩阵</h2>
+      <div class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="stat-cell">
+          <h3 class="font-mono text-sm text-phos-400">语言</h3>
+          <p class="mt-2 text-sm text-fg-300">C / Python / Verilog / TypeScript / C#</p>
+        </div>
+        <div class="stat-cell">
+          <h3 class="font-mono text-sm text-phos-400">嵌入式</h3>
+          <p class="mt-2 text-sm text-fg-300">STM32H743 · FreeRTOS · LVGL · CMSIS-DSP · CubeMX</p>
+        </div>
+        <div class="stat-cell">
+          <h3 class="font-mono text-sm text-phos-400">FPGA</h3>
+          <p class="mt-2 text-sm text-fg-300">Quartus · Verilog · CIC/FIR 定点化 · MATLAB 联合仿真</p>
+        </div>
+        <div class="stat-cell">
+          <h3 class="font-mono text-sm text-phos-400">工具链</h3>
+          <p class="mt-2 text-sm text-fg-300">CMake/Ninja · Git · pytest · unittest</p>
+        </div>
+        <div class="stat-cell">
+          <h3 class="font-mono text-sm text-phos-400">仪器</h3>
+          <p class="mt-2 text-sm text-fg-300">SCPI · DG4062 · E8267D · MSO4104B/DS4014E</p>
+        </div>
+        <div class="stat-cell">
+          <h3 class="font-mono text-sm text-phos-400">AI</h3>
+          <p class="mt-2 text-sm text-fg-300">ComfyUI · MCP · 多智能体调度 · 本地模型部署</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

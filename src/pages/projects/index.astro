@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { getCollection } from 'astro:content';
+import { GROUPS, type GroupKey } from '../../lib/groups';
+
+const projects = await getCollection('projects');
+const sorted = projects.sort((a, b) => a.data.weight - b.data.weight);
+
+const byGroup = (['signal', 'pc', 'ai'] as GroupKey[]).map((key) => ({
+  key,
+  ...GROUPS[key],
+  items: sorted.filter((p) => p.data.group === key),
+}));
+---
+
+<BaseLayout
+  title="项目总览"
+  description="嵌入式与信号处理 / PC 工具与自动化 / AI 工具链——每个项目都附原理图、实测数据或演示。"
+>
+  <section class="mx-auto max-w-5xl px-4 py-12 sm:py-16">
+    <p class="kicker">/projects</p>
+    <h1 class="mt-2 text-3xl font-bold sm:text-4xl">项目总览</h1>
+    <p class="mt-4 max-w-2xl text-[15px] leading-8 text-fg-300">
+      按「嵌入式与信号处理 / PC 工具与自动化 / AI 工具链」分组。★ 为精选项目（详情页含架构图、实测数据与演示）。
+    </p>
+
+    {
+      byGroup.map((g) => (
+        <section class="mt-12" aria-labelledby={`g-${g.key}`}>
+          <div class="flex flex-wrap items-baseline justify-between gap-2">
+            <h2 id={`g-${g.key}`} class="text-xl font-bold sm:text-2xl">
+              <span class="font-mono text-phos-400">§</span> {g.label}
+            </h2>
+            <p class="text-sm text-fg-500">{g.desc}</p>
+          </div>
+          <div class="mt-6 grid gap-5 sm:grid-cols-2">
+            {g.items.map((p) => (
+              <ProjectCard project={p} eager={false} />
+            ))}
+          </div>
+          {g.items.length === 0 && <p class="mt-6 text-sm text-fg-500">整理中。</p>}
+        </section>
+      ))
+    }
+  </section>
+</BaseLayout>

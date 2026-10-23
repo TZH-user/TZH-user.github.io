@@ -1,0 +1,105 @@
+---
+import { SITE } from '../config';
+
+const links = [
+  { href: '/', label: '首页', exact: true },
+  { href: '/projects/', label: '项目' },
+  { href: '/tools/', label: '小工具' },
+  { href: '/about/', label: '关于' },
+];
+
+const current = Astro.url.pathname;
+const isActive = (href: string, exact?: boolean) =>
+  exact ? current === href || current === href.replace(/\/$/, '') : current.startsWith(href) || current.replace(/\/$/, '') === href.replace(/\/$/, '');
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-ink-700/80 bg-ink-950/90 backdrop-blur supports-[backdrop-filter]:bg-ink-950/75"
+>
+  <nav class="mx-auto flex h-14 max-w-5xl items-center justify-between px-4" aria-label="主导航">
+    <a href="/" class="group flex items-center gap-2 font-mono text-sm" aria-label="返回首页">
+      <span class="inline-flex h-6 w-6 items-center justify-center rounded border border-phos-500/60 bg-phos-500/10 text-phos-400">
+        TZ
+      </span>
+      <span class="text-fg-100 group-hover:text-phos-300 transition-colors">{SITE.name}</span>
+    </a>
+
+    <div class="hidden md:flex items-center gap-1">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            aria-current={isActive(l.href, l.exact) ? 'page' : undefined}
+            class:list={[
+              'rounded-lg px-3 py-2 text-sm transition-colors',
+              isActive(l.href, l.exact)
+                ? 'bg-ink-800 text-phos-300'
+                : 'text-fg-300 hover:bg-ink-850 hover:text-fg-100',
+            ]}
+          >
+            {l.label}
+          </a>
+        ))
+      }
+    </div>
+
+    <!-- 移动端汉堡（≥44×44 触控区） -->
+    <button
+      id="menu-btn"
+      type="button"
+      class="md:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg text-fg-300 hover:bg-ink-850 hover:text-fg-100"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="打开菜单"
+    >
+      <svg id="icon-open" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <path d="M3 5.5h14M3 10h14M3 14.5h14"></path>
+      </svg>
+      <svg id="icon-close" class="hidden" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+        <path d="M5 5l10 10M15 5L5 15"></path>
+      </svg>
+    </button>
+  </nav>
+
+  <div id="mobile-menu" class="hidden md:hidden border-t border-ink-700/80 bg-ink-950/95">
+    <div class="mx-auto max-w-5xl px-4 py-2">
+      {
+        links.map((l) => (
+          <a
+            href={l.href}
+            aria-current={isActive(l.href, l.exact) ? 'page' : undefined}
+            class:list={[
+              'block rounded-lg px-3 py-3 text-base',
+              isActive(l.href, l.exact)
+                ? 'bg-ink-800 text-phos-300'
+                : 'text-fg-300 hover:bg-ink-850 hover:text-fg-100',
+            ]}
+          >
+            {l.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  const iconOpen = document.getElementById('icon-open');
+  const iconClose = document.getElementById('icon-close');
+  if (btn && menu && iconOpen && iconClose) {
+    const setOpen = (open: boolean) => {
+      menu.classList.toggle('hidden', !open);
+      iconOpen.classList.toggle('hidden', open);
+      iconClose.classList.toggle('hidden', !open);
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+    };
+    btn.addEventListener('click', () => setOpen(menu.classList.contains('hidden')));
+    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 768) setOpen(false);
+    });
+  }
+</script>

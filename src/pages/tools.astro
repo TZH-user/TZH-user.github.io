@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const tools = [
+  {
+    name: 'bili-fetcher',
+    desc: '基于 PySide6 + yt-dlp 的 B 站视频下载器，图形界面，支持选择性音轨/清晰度，有可分发的打包成品。',
+    stack: ['Python', 'PySide6', 'yt-dlp'],
+  },
+  {
+    name: '文件整理工具',
+    desc: 'Electron 桌面应用，按规则批量整理下载目录，有打包安装包。',
+    stack: ['Electron', 'Node.js'],
+  },
+  {
+    name: 'FPGAtoll',
+    desc: '面向 FPGA RTL 工程的 MCP 服务器：把工程结构、引脚约束与源文件索引进模型上下文，辅助 AI 做 RTL 开发。',
+    stack: ['MCP', 'TypeScript'],
+  },
+  {
+    name: 'proj-clone-skill',
+    desc: 'ZCode skill：把工程目录按排除清单克隆到新位置并生成结构报告，是本项目 T0 素材整理的同款思路。',
+    stack: ['ZCode Skill', 'Python'],
+  },
+  {
+    name: 'RGB_LVGL 移植文档',
+    desc: 'RGB 屏 + LTDC + LVGL 在 STM32H743 上的移植踩坑记录与配置清单。',
+    stack: ['LVGL', 'LTDC', '文档'],
+  },
+  {
+    name: 'Xilinx 例程集',
+    desc: '数字时钟设计等课程练习：Vivado + Verilog 入门到时序逻辑实战。',
+    stack: ['Verilog', 'Vivado'],
+  },
+];
+---
+
+<BaseLayout title="小工具" description="第三梯队小工具合集：每个一段说明，够用就好。">
+  <section class="mx-auto max-w-5xl px-4 py-12 sm:py-16">
+    <p class="kicker">/tools</p>
+    <h1 class="mt-2 text-3xl font-bold sm:text-4xl">小工具合集</h1>
+    <p class="mt-4 max-w-2xl text-[15px] leading-8 text-fg-300">
+      一些解决具体问题的小东西——不写长篇架构，一段话说明它是干嘛的。
+    </p>
+
+    <div class="mt-10 grid gap-4 sm:grid-cols-2">
+      {
+        tools.map((t, i) => (
+          <div class="panel panel-hover p-5">
+            <div class="flex items-baseline justify-between gap-3">
+              <h2 class="font-mono text-base font-semibold text-phos-300">{t.name}</h2>
+              <span class="font-mono text-xs text-fg-700">#{String(i + 1).padStart(2, '0')}</span>
+            </div>
+            <p class="mt-3 text-sm leading-7 text-fg-300">{t.desc}</p>
+            <div class="mt-4 flex flex-wrap gap-1.5">
+              {t.stack.map((s) => (
+                <span class="tag">{s}</span>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

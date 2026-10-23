@@ -1,0 +1,62 @@
+---
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../config';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** 首屏大图不懒加载 */
+  heroImage?: string;
+}
+
+const { title, description = SITE.tagline, heroImage } = Astro.props;
+const pageTitle = title ? `${title} · ${SITE.title}` : `${SITE.name} — ${SITE.tagline}`;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#07090c" />
+    <!-- 微信/分享卡片 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="format-detection" content="telephone=no" />
+    {heroImage && <link rel="preload" as="image" href={heroImage} fetchpriority="high" />}
+    <script is:inline type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "汤泽汉",
+        "url": "/",
+        "jobTitle": "嵌入式与信号处理方向学生工程师",
+        "knowsAbout": ["STM32", "FPGA", "Verilog", "FreeRTOS", "LVGL", "CMake", "Python", "DSP"]
+      }
+    </script>
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:left-2 focus:rounded-md focus:bg-phos-500 focus:px-3 focus:py-2 focus:text-ink-950"
+    >
+      跳到主要内容
+    </a>
+    <Nav />
+    <main id="main" class="flex-1 w-full">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,68 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  /** 首屏卡片不懒加载 */
+  eager?: boolean;
+  /** 首页精选卡片用大图，列表页用横图 */
+  size?: 'lg' | 'sm';
+}
+
+const { project, eager = false, size = 'sm' } = Astro.props;
+const { title, cover, coverAlt, summary, tags, metrics, tier, period } = project.data;
+const href = `/projects/${project.id}/`;
+---
+
+<article
+  class:list={[
+    'panel panel-hover group relative flex flex-col overflow-hidden',
+    size === 'lg' ? 'sm:col-span-2' : '',
+  ]}
+>
+  {cover && (
+    <a href={href} class="block overflow-hidden" tabindex="-1" aria-hidden="true">
+      <img
+        src={cover}
+        alt={coverAlt ?? `${title} 配图`}
+        width={size === 'lg' ? 1200 : 800}
+        height={size === 'lg' ? 640 : 450}
+        loading={eager ? 'eager' : 'lazy'}
+        decoding="async"
+        class:list={[
+          'w-full object-cover border-b border-ink-700 transition-transform duration-300 group-hover:scale-[1.02]',
+          size === 'lg' ? 'h-56 sm:h-64' : 'h-44',
+        ]}
+      />
+    </a>
+  )}
+  <div class="flex flex-1 flex-col gap-3 p-4 sm:p-5">
+    <div class="flex items-center justify-between gap-2 font-mono text-xs">
+      <span class:list={[tier === 'featured' ? 'text-phos-400' : 'text-fg-500']}>
+        {tier === 'featured' ? '★ 精选' : '· 项目'}
+      </span>
+      <span class="text-fg-500">{period}</span>
+    </div>
+    <h3 class="text-lg font-semibold leading-snug text-fg-100">
+      <a href={href} class="after:absolute after:inset-0 after:content-[''] hover:text-phos-300 transition-colors">
+        {title}
+      </a>
+    </h3>
+    <p class="text-sm leading-relaxed text-fg-300 line-clamp-3">{summary}</p>
+    {
+      metrics.length > 0 && (
+        <div class="mt-auto grid grid-cols-2 gap-2 pt-2">
+          {metrics.slice(0, 2).map((m) => (
+            <div class="stat-cell">
+              <div class="font-mono text-sm text-amb-400">{m.value}</div>
+              <div class="mt-0.5 text-xs text-fg-500">{m.label}</div>
+            </div>
+          ))}
+        </div>
+      )
+    }
+    <div class="flex flex-wrap gap-1.5 pt-1">
+      {tags.slice(0, 5).map((t) => <span class="tag">{t}</span>)}
+    </div>
+  </div>
+</article>

@@ -1,0 +1,183 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   设计系统 · Dark Dev × Hardware Engineering
+   基准视口 375px，断点 sm(640) / md(768) / lg(1024)
+------------------------------------------------------------------- */
+@theme {
+  /* 面板与背景 */
+  --color-ink-950: #07090c;
+  --color-ink-900: #0b0e13;
+  --color-ink-850: #10141b;
+  --color-ink-800: #151b24;
+  --color-ink-700: #222c3a;
+  --color-ink-600: #313e50;
+
+  /* 荧光绿主色（终端/示波器磷光） */
+  --color-phos-300: #a7f3c0;
+  --color-phos-400: #6ee7a0;
+  --color-phos-500: #34d17e;
+  --color-phos-600: #1fa861;
+  /* 琥珀辅色（告警/高亮数据） */
+  --color-amb-400: #fbbf24;
+  --color-amb-500: #f59e0b;
+  /* 蓝色补色（链接/信息） */
+  --color-sig-400: #60a5fa;
+  --color-sig-500: #3b82f6;
+
+  /* 文本 */
+  --color-fg-100: #e8edf4;
+  --color-fg-300: #b4bfcd;
+  --color-fg-500: #7f8da0;
+  --color-fg-700: #4b5566;
+
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas,
+    "Liberation Mono", monospace;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
+    "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
+
+  --breakpoint-xs: 26rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    @apply bg-ink-950 text-fg-100 font-sans antialiased;
+    /* 低调工程网格：仅在大屏显示，移动端省电省渲染 */
+    background-image:
+      linear-gradient(rgba(52, 209, 126, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(52, 209, 126, 0.025) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  ::selection {
+    background-color: var(--color-phos-500);
+    color: var(--color-ink-950);
+  }
+  /* 中文正文行高与字距 */
+  p {
+    line-height: 1.8;
+  }
+  /* 焦点可达性 */
+  a:focus-visible,
+  button:focus-visible,
+  summary:focus-visible {
+    outline: 2px solid var(--color-phos-400);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer components {
+  /* 面板：卡片/分区的统一容器 */
+  .panel {
+    @apply rounded-xl border border-ink-700 bg-ink-900/80;
+  }
+  .panel-hover {
+    @apply transition-colors duration-200 hover:border-phos-600/60;
+  }
+  /* 区块标题前的 mono 标尺 */
+  .kicker {
+    @apply font-mono text-xs tracking-[0.2em] text-phos-400 uppercase;
+  }
+  /* 正文链接 */
+  .link {
+    @apply text-sig-400 underline decoration-sig-500/40 underline-offset-4 hover:text-sig-500;
+  }
+  /* 技术栈 tag */
+  .tag {
+    @apply inline-flex items-center rounded-md border border-ink-600 bg-ink-800/80 px-2 py-1 font-mono text-xs leading-none text-fg-300;
+  }
+  /* 数据格 */
+  .stat-cell {
+    @apply rounded-lg border border-ink-700 bg-ink-850 px-3 py-2.5;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  /* 示波器网格背景（hero 用） */
+  .scope-grid {
+    background-image:
+      linear-gradient(rgba(110, 231, 160, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(110, 231, 160, 0.06) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Markdown 正文排版（详情页 .prose-md）
+------------------------------------------------------------------- */
+.prose-md {
+  @apply text-[15px] leading-8 text-fg-300;
+}
+.prose-md > * + * {
+  margin-top: 1.25em;
+}
+.prose-md h2 {
+  @apply mt-10 mb-1 flex items-center gap-3 text-xl font-semibold text-fg-100;
+}
+.prose-md h2::before {
+  content: '';
+  @apply inline-block h-4 w-1 rounded-full bg-phos-500;
+}
+.prose-md h3 {
+  @apply mt-8 mb-1 text-lg font-semibold text-fg-100;
+}
+.prose-md strong {
+  @apply font-semibold text-fg-100;
+}
+.prose-md a {
+  @apply text-sig-400 underline decoration-sig-500/40 underline-offset-4 hover:text-sig-500;
+}
+.prose-md ul {
+  @apply list-none space-y-2;
+}
+.prose-md ul li {
+  @apply relative pl-5;
+}
+.prose-md ul li::before {
+  content: '▸';
+  @apply absolute left-0 top-0 font-mono text-phos-500;
+}
+.prose-md ol {
+  @apply list-decimal space-y-2 pl-6 marker:font-mono marker:text-phos-500;
+}
+.prose-md blockquote {
+  @apply rounded-r-lg border-l-2 border-phos-600/70 bg-ink-850 px-4 py-2 text-fg-500;
+}
+.prose-md code {
+  @apply rounded bg-ink-800 px-1.5 py-0.5 font-mono text-[13px] text-phos-300;
+}
+.prose-md pre {
+  @apply overflow-x-auto rounded-lg border border-ink-700 bg-ink-900 p-4;
+}
+.prose-md pre code {
+  @apply bg-transparent p-0 text-[13px] leading-6 text-fg-300;
+}
+.prose-md table {
+  @apply block w-full max-w-full overflow-x-auto rounded-lg border border-ink-700 text-sm;
+}
+.prose-md th {
+  @apply border-b border-ink-700 bg-ink-850 px-3 py-2 text-left font-mono text-xs text-fg-100;
+}
+.prose-md td {
+  @apply border-b border-ink-700/60 px-3 py-2 align-top;
+}
+.prose-md figure {
+  @apply my-6;
+}
+.prose-md img {
+  @apply mx-auto w-full rounded-lg border border-ink-700 bg-white/95 p-1;
+}
+.prose-md figcaption {
+  @apply mt-2 text-center text-xs text-fg-500;
+}
+/* 白底原理图/截图在暗色主题下统一处理成"图纸"观感 */
+.prose-md img.schematic {
+  @apply bg-white p-2;
+}
