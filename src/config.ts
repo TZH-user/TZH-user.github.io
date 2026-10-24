@@ -4,9 +4,9 @@
  */
 export const SITE = {
   /** 站点名（<title> 后缀） */
-  title: '汤泽汉 · 作品集',
+  title: '唐泽瀚 · 作品集',
   /** 首页主标题 */
-  name: '汤泽汉',
+  name: '唐泽瀚',
   /** 拼音名（英文场合） */
   nameEn: 'Tang Zehan',
   /** 一句话定位 */
@@ -15,7 +15,7 @@ export const SITE = {
   intro:
     '电子/嵌入式方向学生工程师。主力方向：STM32H743 固件与 DSP 管线、FPGA 数字采集链、PC 端仪器自动化与 AI 工具链。习惯把每个项目做成"有原理图、有实测数据、有演示视频"的可验证交付物。',
   /** 邮箱（占位，部署前替换） */
-  email: 'mailto:hello@example.com',
+  email: 'mailto:1815222138@qq.com',
   /** 外链（占位，T2 推送后替换为真实用户名） */
   github: 'https://github.com/TZH-user',
   gitee: 'https://gitee.com/bending-the-willow-branches',
